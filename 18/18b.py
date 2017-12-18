@@ -18,13 +18,6 @@ class Program:
         self.is_waiting = False
         self.num_values_sent = 0
 
-    def add_message_to_queue(self, message):
-        """
-        Add a message to the program's message queue.
-        :param message: message to add to the queue
-        """
-        self.message_queue.append(message)
-
     def get_value(self, input_value):
         """
         Determine the register or numeric value of the input.
@@ -47,23 +40,18 @@ class Program:
             message = self.get_value(instruction[1])
             self.num_values_sent += 1
             self.instruction_index += 1
-            self.is_waiting = False
         elif instruction[0] == "set":
             self.registers[instruction[1]] = self.get_value(instruction[2])
             self.instruction_index += 1
-            self.is_waiting = False
         elif instruction[0] == "add":
             self.registers[instruction[1]] += self.get_value(instruction[2])
             self.instruction_index += 1
-            self.is_waiting = False
         elif instruction[0] == "mul":
             self.registers[instruction[1]] *= self.get_value(instruction[2])
             self.instruction_index += 1
-            self.is_waiting = False
         elif instruction[0] == "mod":
             self.registers[instruction[1]] %= self.get_value(instruction[2])
             self.instruction_index += 1
-            self.is_waiting = False
         elif instruction[0] == "rcv":
             if len(self.message_queue) > 0:
                 self.registers[instruction[1]] = self.message_queue.pop(0)
@@ -76,7 +64,6 @@ class Program:
                 self.instruction_index += self.get_value(instruction[2])
             else:
                 self.instruction_index += 1
-            self.is_waiting = False
         return message
 
 
@@ -88,12 +75,12 @@ while not (program_0.is_waiting and program_1.is_waiting):
     if active_program == 0:
         program_message = program_0.run_instruction()
         if program_message is not None:
-            program_1.add_message_to_queue(program_message)
+            program_1.message_queue.append(program_message)
         active_program = 1
     else:
         program_message = program_1.run_instruction()
         if program_message is not None:
-            program_0.add_message_to_queue(program_message)
+            program_0.message_queue.append(program_message)
         active_program = 0
 
 print(program_1.num_values_sent)
