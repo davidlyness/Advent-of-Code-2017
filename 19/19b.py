@@ -1,5 +1,5 @@
 # coding=utf-8
-"""Advent of Code 2017, Day 19, Part 1"""
+"""Advent of Code 2017, Day 19, Part 2"""
 
 with open("input.txt") as f:
     grid = f.readlines()
