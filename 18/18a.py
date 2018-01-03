@@ -1,5 +1,5 @@
 # coding=utf-8
-"""Advent of Code 2017, Day 18. Part 1"""
+"""Advent of Code 2017, Day 18, Part 1"""
 
 with open("input.txt") as f:
     instructions = [x.split(" ") for x in f.read().rstrip("\n").split("\n")]
